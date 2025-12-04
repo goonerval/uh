@@ -13,7 +13,6 @@
  nav button:hover{background:#555}
  .games-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;padding:20px}
  .game-card{background:#fff;padding:12px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.2);text-align:center}
- .game-card img{width:100%;height:150px;object-fit:cover;border-radius:10px}
  .game-card button{margin-top:10px;padding:10px 15px;border:none;border-radius:8px;background:#333;color:#fff;cursor:pointer}
  .game-card button:hover{background:#555}
 </style>
@@ -21,93 +20,58 @@
 <body>
 <header>
  <h1>UBG++</h1>
- <p>All HTML5 games — loaded from about:blank</p>
+ <p>Games loaded directly from your GitHub repo</p>
  <input id="searchBar" onkeyup="searchGames()" placeholder="Search games...">
 </header>
 <nav>
  <button onclick="filterCategory('all')">All</button>
  <button onclick="filterCategory('arcade')">Arcade</button>
  <button onclick="filterCategory('action')">Action</button>
- <button onclick="filterCategory('puzzle')">Puzzle</button>
- <button onclick="filterCategory('strategy')">Strategy</button>
+ <button onclick="filterCategory('sports')">Sports</button>
+ <button onclick="filterCategory('misc')">Misc</button>
 </nav>
 <div class="games-container" id="gamesList"></div>
 <script>
-function enc(x){return x.replace(/ /g,'%20');}
-const games=[
- {name:"1v1 lol",url:enc("1v1 lol.html"),icon:enc("1v1 lol.png"),category:"action"},
- {name:"2048",url:enc("2048.html"),icon:enc("2048.png"),category:"puzzle"},
- {name:"among us",url:enc("among us.html"),icon:enc("among us.jpg"),category:"action"},
- {name:"backrooms",url:enc("backrooms.html"),icon:enc("backrooms.jpg"),category:"strategy"},
- {name:"basket random",url:enc("basket random.html"),icon:enc("basket random.jpg"),category:"arcade"},
- {name:"basketball stars",url:enc("basketball stars.html"),icon:enc("basketball stars.jpg"),category:"arcade"},
- {name:"basketbros",url:enc("basketbros.html"),icon:enc("basketbros.jpg"),category:"arcade"},
- {name:"bitlife",url:enc("bitlife.html"),icon:enc("bitlife.jpg"),category:"strategy"},
- {name:"bloomstd",url:enc("bloomstd.html"),icon:enc("bloonstd.jpg"),category:"strategy"},
- {name:"boxing random",url:enc("boxing random.html"),icon:enc("boxing random.jpg"),category:"arcade"},
- {name:"cars",url:enc("cars.html"),icon:enc("car logo.jpg"),category:"arcade"},
- {name:"chrome dino",url:enc("chrome dino.html"),icon:enc("chrome dino.png"),category:"arcade"},
- {name:"cookie clicker",url:enc("cookie clicker.html"),icon:enc("cookie.png"),category:"puzzle"},
- {name:"crossy road",url:enc("crossy road.html"),icon:enc("crossy road.jpg"),category:"arcade"},
- {name:"csgo clicker",url:enc("csgo clicker.html"),icon:enc("csgo clicker.png"),category:"action"},
- {name:"deadshot",url:enc("deadshot.html"),icon:enc("deadshot.jpg"),category:"action"},
- {name:"death run3d",url:enc("death run3d.html"),icon:enc("death run3D.png"),category:"arcade"},
- {name:"draw the hill",url:enc("draw the hill.html"),icon:enc("draw the hill.jpg"),category:"arcade"},
- {name:"drift boss",url:enc("drift boss.html"),icon:enc("drift boss.png"),category:"arcade"},
- {name:"drift io",url:enc("drift io.html"),icon:enc("drift io.jpg"),category:"arcade"},
- {name:"drive mad",url:enc("drive mad.html"),icon:enc("drive mad.jpg"),category:"arcade"},
- {name:"eaglercraft",url:enc("eaglercraft.html"),icon:enc("eaglercraft.png"),category:"strategy"},
- {name:"eggy car",url:enc("eggy car.html"),icon:enc("eggy car.jpg"),category:"arcade"},
- {name:"ev io",url:enc("ev io.html"),icon:enc("ev io.jpg"),category:"action"},
- {name:"flappy bird",url:enc("flappy bird.html"),icon:enc("flappy bird.png"),category:"arcade"},
- {name:"fruit ninja",url:enc("fruit ninja.html"),icon:enc("Fruit Ninja.jpg"),category:"arcade"},
- {name:"gartic phone",url:enc("gartic phone.html"),icon:enc("gartic phone.jpg"),category:"strategy"},
- {name:"geometry dash",url:enc("geometry dash.html"),icon:enc("geometry dash.jpg"),category:"arcade"},
- {name:"idle breakout",url:enc("idle breakout.html"),icon:enc("idle breakout.png"),category:"puzzle"},
- {name:"infinite craft",url:enc("infinite craft.html"),icon:enc("infintie craft.png"),category:"puzzle"},
- {name:"jeff bazos",url:enc("jeff bazos.html"),icon:enc("JEFF BAZOS.png"),category:"action"},
- {name:"krunker",url:enc("krunker.html"),icon:enc("krunker.png"),category:"action"},
- {name:"loshot",url:enc("loshot.html"),icon:enc("lolshot.jpg"),category:"action"},
- {name:"madalin stuntcars",url:enc("madilin stuntcars.html"),icon:enc("madalin stuncars.jpg"),category:"arcade"},
- {name:"mario 64",url:enc("mario 64.html"),icon:enc("Mario.gif"),category:"arcade"},
- {name:"mario",url:enc("mario.html"),icon:enc("super mario.png"),category:"arcade"},
- {name:"minecraft classic",url:enc("minecraft classic.html"),icon:enc("minecraft classic.png"),category:"strategy"},
- {name:"monkey mart",url:enc("monkey mart.html"),icon:enc("monkey mart.jpg"),category:"arcade"},
- {name:"neal.fun",url:enc("neal.fun.html"),icon:enc("neal.fun.jpg"),category:"strategy"},
- {name:"paper io",url:enc("paper io.html"),icon:enc("paper io.png"),category:"arcade"},
- {name:"retro bowl",url:enc("retro bowl.html"),icon:enc("retro bowl.jpg"),category:"sports"},
- {name:"roblox",url:enc("roblox.html"),icon:enc("roblox.jpg"),category:"action"},
- {name:"run3",url:enc("run3.html"),icon:enc("run3.jpg"),category:"arcade"},
- {name:"santa tracker",url:enc("santa tracker.html"),icon:enc("santa tracker.png"),category:"arcade"},
- {name:"scrap metal3",url:enc("scrap metal3.html"),icon:enc("scrap metal 3.png"),category:"arcade"},
- {name:"shellshockers",url:enc("shellshockers.html"),icon:enc("shellshockers.jpg"),category:"action"},
- {name:"shooter",url:enc("shooter.html"),icon:enc("shooter logo.jpg"),category:"action"},
- {name:"short life",url:enc("short life.html"),icon:enc("short life.jpg"),category:"action"},
- {name:"slope",url:enc("slope.html"),icon:enc("slope.jpg"),category:"arcade"},
- {name:"slope2",url:enc("slope2.html"),icon:enc("slope2.png"),category:"arcade"},
- {name:"slow roads",url:enc("slow roads.html"),icon:enc("slow roads.jpg"),category:"arcade"},
- {name:"smash karts",url:enc("smash karts.html"),icon:enc("smash karts.jpg"),category:"action"},
- {name:"snake",url:enc("snake.html"),icon:enc("snake.jpg"),category:"arcade"},
- {name:"snow rider 3d",url:enc("snow rider 3d.html"),icon:enc("snow rider 3D.jpg"),category:"arcade"},
- {name:"soccer random",url:enc("soccer random.html"),icon:enc("soccer random.jpg"),category:"sports"},
- {name:"spidey swing",url:enc("spidey swing.html"),icon:enc("spidey swing.jpg"),category:"arcade"},
- {name:"spotify",url:enc("spotify.html"),icon:enc("spotify.png"),category:"utility"},
- {name:"temple run2",url:enc("temple run2.html"),icon:enc("temple run2.png"),category:"arcade"},
- {name:"tube jumpers",url:enc("tube jumpers.html"),icon:enc("tube jumpers.jpg"),category:"arcade"},
- {name:"tunnel rush",url:enc("tunnel rush.html"),icon:enc("tunnel rush.jpg"),category:"arcade"},
- {name:"venge.io",url:enc("venge.io.html"),icon:enc("venge.jpg"),category:"action"},
- {name:"volly random",url:enc("volly random.html"),icon:enc("volly random.jpg"),category:"sports"},
- {name:"windows 11",url:enc("windows 11.html"),icon:enc("windows11.jpg"),category:"utility"},
- {name:"wordle",url:enc("wordle.html"),icon:enc("wordle.png"),category:"puzzle"},
- {name:"worlds hardest game",url:enc("worlds hardest game.html"),icon:enc("worlds hardest game.jpg"),category:"puzzle"},
- {name:"worlds hardest game 2",url:enc("worlds hardest game2.html"),icon:enc("worlds hardest game 2.jpg"),category:"puzzle"}
+// Base raw GitHub file URL
+const BASE = "https://raw.githubusercontent.com/goonerval/mygames/main/";
+
+// Each game loads the RAW HTML file and writes it into about:blank
+function openGameRaw(file){
+    fetch(BASE + encodeURIComponent(file))
+      .then(res => res.text())
+      .then(html => {
+        const w = window.open("about:blank");
+        w.document.open();
+        w.document.write(html);
+        w.document.close();
+      });
+}
+
+const games = [
+ {name:"Temple Run 2", file:"temple run2.html", category:"arcade"},
+ {name:"Soccer Random", file:"soccer random.html", category:"sports"},
+ {name:"Roblox", file:"roblox.html", category:"action"},
+ {name:"Retro Bowl", file:"retro bowl.html", category:"sports"},
+ {name:"Neal.fun", file:"neal.fun.html", category:"misc"},
+ {name:"Infinite Craft", file:"infinite craft.html", category:"misc"},
+ {name:"Geometry Dash", file:"geometry dash.html", category:"arcade"},
+ {name:"Eaglercraft", file:"eaglercraft.html", category:"arcade"}
 ];
-function loadGames(list){const box=document.getElementById("gamesList");box.innerHTML="";list.forEach(g=>{box.innerHTML+=`<div class='game-card' data-category='${g.category}'><img src='${g.icon}'><h3>${g.name}</h3><button onclick=\"openGame('${g.url}')\">Play</button></div>`});}
-function openGame(url){const w=window.open('about:blank');w.location=url;}
-function searchGames(){const t=document.getElementById('searchBar').value.toLowerCase();loadGames(games.filter(g=>g.name.toLowerCase().includes(t)));}
-function filterCategory(c){if(c==='all')loadGames(games);else loadGames(games.filter(g=>g.category===c));}
+
+function loadGames(list){
+    const box=document.getElementById("gamesList");
+    box.innerHTML="";
+    list.forEach(g=>{
+        box.innerHTML+=`<div class='game-card' data-category='${g.category}'><h3>${g.name}</h3><button onclick=\"openGameRaw('${g.file}')\">Play</button></div>`;
+    });
+}
+
+function searchGames(){
+ const t=document.getElementById('searchBar').value.toLowerCase();
+ loadGames(games.filter(g=>g.name.toLowerCase().includes(t)));
+}
+function filterCategory(c){ if(c==='all') loadGames(games); else loadGames(games.filter(g=>g.category===c)); }
 loadGames(games);
 </script>
 </body>
 </html>
-
